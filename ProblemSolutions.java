@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Fiore Cassettari / 002
  *
  *   This java file contains the problem solutions for the methods lastBoulder,
  *   showDuplicates, and pair methods. You should utilize the Java Collection
@@ -64,11 +64,18 @@ public class ProblemSolutions {
      */
 
   public static int lastBoulder(int[] boulders) {
+      PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+      for (int boulder : boulders) { pq.add(boulder); }
 
-      //
-      // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
-      //
-      return -1;
+      while (pq.size() > 1) {
+          int x = pq.poll();
+          int y = pq.poll();
+
+          if (x != y) { pq.add(x - y); }
+      }
+
+      return pq.isEmpty() ? 0 : pq.peek(); //return last boulder, or 0
+
   }
 
 
@@ -91,11 +98,16 @@ public class ProblemSolutions {
 
     public static ArrayList<String> showDuplicates(ArrayList<String> input) {
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+        HashMap<String, Integer> map = new HashMap<>();
+        ArrayList<String> output = new ArrayList<>();
 
+        for (String item : input ) { map.put(item, map.getOrDefault(item, 0)+1); }
+
+        for (String key : map.keySet()) {
+            if (map.get(key) > 1) { output.add(key); }
+        }
+        Collections.sort(output);
+        return output;
     }
 
 
@@ -130,10 +142,35 @@ public class ProblemSolutions {
      */
 
     public static ArrayList<String> pair(int[] input, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        ArrayList<String> output = new ArrayList<>();
 
-        //
-        //  YOUR CODE GOES HERE
-        //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+        for (int num : input) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        for (int i : input) {
+            int comp = k - i;
+
+            if (map.getOrDefault(i, 0) > 0 && map.getOrDefault(comp, 0) > 0) {
+                int min = Math.min(i, comp);
+                int max = Math.max(i, comp);
+                String s = "(" + min + ", " + max + ")";
+
+                if (!output.contains(s)) {
+                    output.add(s);
+                }
+
+                map.put(i, map.get(i) - 1);
+                map.put(comp, map.get(comp) - 1);
+
+                if (map.get(i) == 0) map.remove(i);
+                if (map.get(comp) == 0) map.remove(comp);
+            }
+        }
+
+        Collections.sort(output);
+        return output;
     }
+
 }

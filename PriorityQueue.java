@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Fiore Cassettari / 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -137,7 +137,7 @@ class PriorityQueue<E, P> {
      * the root until it is in its correct location on the heap.
      *
      * The parameters are the object representing the element to queue, along with 
-     * its priority object. The method returns the type Node, which allows a handle 
+     * its priority object. The method returns the type Node, which allows a handle
      * to the inserted item by the invoking application (if desired). The invoking 
      * application has the availability to invoke any method available on type Node 
      * after it is returned, including changing the priority of an element while 
@@ -151,8 +151,11 @@ class PriorityQueue<E, P> {
 
     public Node add(E e, P priority) {
 
-        // YOUR CODE GOES HERE
-        return null;
+        Node newNode = new Node(e, priority, tree.size());
+        tree.add(newNode);
+        pullUp(newNode.idx);
+
+        return newNode;
     }
 
 
@@ -168,7 +171,7 @@ class PriorityQueue<E, P> {
 
     public boolean contains(E e) {
 
-        // ADD YOUR CODE HERE
+        for (Node node : tree) { if (node.value.equals(e)) { return true; } }
         return false;
     }
 
